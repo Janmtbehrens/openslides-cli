@@ -19,7 +19,7 @@ Provide the user data as an argument, or use the --file flag with a file path,
 or use --file=- to read from stdin.
 
 Examples:
-  osmanage create-user '{"username": "myuser", "default_password": "mypwd"}' \
+  osmanage create-user '{"username": "myuser", "initial_password": "mypwd"}' \
     --address <myBackendManageIP>:9002 \
     --password-file ./my.instance.dir.org/secrets/internal_auth_password
 
@@ -28,7 +28,7 @@ Examples:
     --address <myBackendManageIP>:9002 \
     --password-file ./my.instance.dir.org/secrets/internal_auth_password
 
-  echo '{"username": "myuser", "default_password": "mypwd"}' | osmanage create-user \
+  echo '{"username": "myuser", "initial_password": "mypwd"}' | osmanage create-user \
     --file - \
     --address <myBackendManageIP>:9002 \
     --password-file ./my.instance.dir.org/secrets/internal_auth_password
@@ -71,8 +71,8 @@ func Cmd() *cobra.Command {
 
 		logger.Debug("Parsed user data: %v", userPayload)
 
-		if userPayload["username"] == nil || userPayload["default_password"] == nil {
-			return fmt.Errorf("missing required fields: username and default_password")
+		if userPayload["username"] == nil || userPayload["initial_password"] == nil {
+			return fmt.Errorf("missing required fields: username and initial_password")
 		}
 
 		password, err := utils.ReadPassword(*passwordFile)

@@ -6,27 +6,45 @@ A command-line interface for managing OpenSlides instances. This tool provides d
 
 ## Table of Contents
 
-- [Overview](#overview)
-- [Installation](#installation)
-- [Quick Start](#quick-start)
-  - [Docker Compose Setup](#docker-compose-setup)
-- [Commands](#commands)
-  - [Instance Management](#instance-management)
-    - [setup](#setup)
-    - [config](#config)
-  - [Backend Actions](#backend-actions)
-    - [migrations](#migrations)
-    - [initial-data](#initial-data)
-    - [create-user](#create-user)
-    - [set-password](#set-password)
-    - [get](#get)
-    - [set](#set)
-    - [action](#action)
-  - [Kubernetes Operations](#kubernetes-operations)
-- [Examples](#examples)
-- [Development](#development)
-- [Credits](#credits)
-- [License](#license)
+- [osmanage](#osmanage)
+  - [Table of Contents](#table-of-contents)
+  - [Overview](#overview)
+  - [Installation](#installation)
+    - [Binary Release](#binary-release)
+    - [From Source](#from-source)
+  - [Quick Start](#quick-start)
+    - [Docker Compose Setup](#docker-compose-setup)
+  - [Commands](#commands)
+    - [Instance Management](#instance-management)
+      - [`setup`](#setup)
+      - [`config`](#config)
+    - [Backend Actions](#backend-actions)
+      - [`migrations`](#migrations)
+      - [`initial-data`](#initial-data)
+      - [`create-user`](#create-user)
+      - [`set-password`](#set-password)
+      - [`get`](#get)
+      - [`set`](#set)
+      - [`action`](#action)
+    - [Kubernetes Operations](#kubernetes-operations)
+      - [`k8s start`](#k8s-start)
+      - [`k8s stop`](#k8s-stop)
+      - [`k8s update-instance`](#k8s-update-instance)
+      - [`k8s update-backendmanage`](#k8s-update-backendmanage)
+      - [`k8s scale`](#k8s-scale)
+      - [`k8s health`](#k8s-health)
+      - [`k8s cluster-status`](#k8s-cluster-status)
+  - [Examples](#examples)
+    - [Complete Kubernetes Workflow](#complete-kubernetes-workflow)
+    - [Query User Data](#query-user-data)
+    - [Query Active Meetings](#query-active-meetings)
+  - [Development](#development)
+    - [Running Tests](#running-tests)
+    - [Building](#building)
+    - [Contributing](#contributing)
+  - [Credits](#credits)
+  - [License](#license)
+  - [Support](#support)
 
 
 ## Overview
@@ -299,13 +317,13 @@ osmanage create-user [user-data] [flags]
 
 **Required JSON Fields:**
 - `username`: User login name
-- `default_password`: Initial password
+- `initial_password`: Initial password
 
 **Examples:**
 
 ```bash
 # Inline JSON
-osmanage create-user '{"username": "admin", "default_password": "secret123"}' \
+osmanage create-user '{"username": "admin", "initial_password": "secret123"}' \
   --address localhost:9002 \
   --password-file ./secrets/internal_auth_password
 
@@ -321,7 +339,7 @@ osmanage create-user \
 ```json
 {
   "username": "mmax",
-  "default_password": "changemepwd",
+  "initial_password": "changemepwd",
   "first_name": "Max",
   "last_name": "Mustermann",
   "email": "mmax@example.com",
